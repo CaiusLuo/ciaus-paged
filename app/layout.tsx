@@ -1,7 +1,16 @@
 ﻿import type { Metadata } from 'next';
+import { Instrument_Serif } from 'next/font/google';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { siteMetadata } from '@/app/config';
 import './globals.css';
+
+const displaySerif = Instrument_Serif({
+    subsets: ['latin'],
+    weight: '400',
+    style: 'normal',
+    variable: '--font-display-face',
+    display: 'swap',
+});
 
 const themeInitScript = `(() => {
     try {
@@ -24,7 +33,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="zh-CN" suppressHydrationWarning>
+        <html lang="zh-CN" className={displaySerif.variable} suppressHydrationWarning>
             <head>
                 <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
             </head>

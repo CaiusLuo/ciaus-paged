@@ -1,0 +1,9 @@
+{
+  "scannedAt": "2026-07-19",
+  "framework": "Next.js 16 (app router)",
+  "styling": "Tailwind v4 + globals.css custom properties",
+  "fonts": "Aptos/Segoe body + Instrument Serif display (next/font) + Cascadia Mono",
+  "palette": "warm paper / charcoal / amber accent",
+  "motion": "motion-cut (no framer-motion); ScrollReveal retained for subpages only",
+  "preserved": ["routes", "ResumeSwitcher data/logic", "blog loading", "dark mode"]
+}

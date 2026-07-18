@@ -18,40 +18,34 @@ export function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     return (
-        <header className="sticky top-0 z-50 border-b border-[color:var(--border)] bg-[color:var(--background)]/85 px-3 py-3 backdrop-blur-xl">
-            <div className="mx-auto flex w-full max-w-[1120px] items-center justify-between">
-                <Link href="/" className="flex shrink-0 items-center gap-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-[color:var(--border)] bg-[color:var(--surface-strong)] text-sm font-bold text-[color:var(--foreground)]">
+        <header className="site-header">
+            <div className="site-header-inner">
+                <Link href="/" className="site-logo">
+                    <span className="site-logo-mark" aria-hidden="true">
                         C
-                    </div>
-                    <span className="text-sm font-semibold text-[color:var(--foreground)] sm:text-base">
-                        Caius
                     </span>
+                    <span className="site-logo-text">Caius</span>
                 </Link>
 
-                <nav className="hidden items-center gap-1 md:flex">
+                <nav className="site-nav" aria-label="Primary">
                     {mainNav.map((item) => (
                         <Link
                             key={item.href}
                             href={item.href}
-                            className={cn(
-                                'rounded-lg px-3 py-2 text-sm font-medium transition-colors',
-                                pathname === item.href
-                                    ? 'bg-[color:var(--foreground)] text-[color:var(--background)]'
-                                    : 'text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--foreground)]'
-                            )}
+                            className={cn('site-nav-link', pathname === item.href && 'is-active')}
                         >
                             {item.title}
                         </Link>
                     ))}
                 </nav>
 
-                <div className="flex items-center gap-3">
+                <div className="site-header-actions">
                     <ThemeToggle />
                     <button
-                        className="flex h-10 w-10 items-center justify-center rounded-lg border border-[color:var(--border)] bg-[color:var(--surface-strong)] text-[color:var(--muted)] transition hover:text-[color:var(--foreground)] md:hidden"
+                        className="site-menu-toggle"
                         onClick={() => setMobileMenuOpen((open) => !open)}
                         aria-label="Toggle navigation"
+                        aria-expanded={mobileMenuOpen}
                     >
                         {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
                     </button>
@@ -59,23 +53,18 @@ export function Header() {
             </div>
 
             {mobileMenuOpen && (
-                <div className="mx-auto mt-3 flex w-full max-w-[1120px] flex-col gap-2 rounded-lg border border-[color:var(--border)] bg-[color:var(--surface-strong)] p-2 shadow-lg shadow-zinc-950/5 md:hidden">
+                <nav className="site-nav-mobile" aria-label="Mobile">
                     {mainNav.map((item) => (
                         <Link
                             key={item.href}
                             href={item.href}
-                            className={cn(
-                                'rounded-lg px-4 py-3 text-sm font-medium transition-colors',
-                                pathname === item.href
-                                    ? 'bg-[color:var(--foreground)] text-[color:var(--background)]'
-                                    : 'text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--foreground)]'
-                            )}
+                            className={cn('site-nav-link', pathname === item.href && 'is-active')}
                             onClick={() => setMobileMenuOpen(false)}
                         >
                             {item.title}
                         </Link>
                     ))}
-                </div>
+                </nav>
             )}
         </header>
     );

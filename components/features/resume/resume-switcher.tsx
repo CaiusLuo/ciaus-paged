@@ -143,13 +143,16 @@ export function ResumeSwitcher() {
     }
 
     return (
-        <section className="notion-section resume-switcher" id="experience">
-            <div className="section-heading">
-                <p className="section-kicker">Experience</p>
+        <section className="archive-section resume-switcher" id="experience">
+            <header className="archive-section-head">
                 <div>
-                    <h2>实习与项目经历</h2>
+                    <h2>Experience</h2>
+                    <p>实习与项目经历，可切换索引查看细节。</p>
                 </div>
-            </div>
+                <p className="archive-section-count">
+                    {currentGroup.items.length} · {totalHighlights} notes
+                </p>
+            </header>
 
             <div className="resume-tabs" role="tablist" aria-label="Resume sections">
                 {(Object.keys(groups) as GroupKey[]).map((key) => {
@@ -176,8 +179,7 @@ export function ResumeSwitcher() {
                 <div className="resume-list" aria-label={`${currentGroup.label}列表`}>
                     <div className="resume-list-summary">
                         <ActiveIcon className="h-4 w-4" />
-                        <span>{currentGroup.items.length} 段经历</span>
-                        <span>{totalHighlights} 个关键动作</span>
+                        <span>{currentGroup.label}</span>
                     </div>
 
                     {currentGroup.items.map((item, index) => (
