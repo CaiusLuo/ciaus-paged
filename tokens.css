@@ -1,51 +1,111 @@
-/* Hallmark · macrostructure: Index-First · tone: technical-editorial · theme: custom
- * vibe: "warm paper · charcoal · amber accent"
- * paper: oklch(97% 0.004 95) · accent: oklch(78% 0.14 85) amber
- * display: Instrument Serif · body: Aptos/Segoe · mono: Cascadia
- * axes: light / classical-serif / warm
- * pre-emit critique: P5 H5 E4 S4 R5 V4
+/* Hallmark · studied-DNA (source: https://www.usehallmark.com/examples/custom-04/)
+ * system: Caius Engineering Broadsheet
+ * paper: oklch(94% 0.012 85) · accent: oklch(58% 0.205 32) vermilion
+ * display: Big Shoulders · editorial: Fraunces · body: system sans + CJK
+ * axes: light / condensed-poster-grotesque / warm-vermilion
+ * pre-emit critique: P5 H5 E5 S5 R4 V5
  */
 
 :root {
-    --color-paper: #f7f7f5;
-    --color-paper-raised: #ffffff;
-    --color-ink: #191919;
-    --color-ink-muted: #63635f;
-    --color-rule: rgba(25, 25, 25, 0.14);
-    --color-accent: #c9920a;
-    --color-accent-soft: rgba(240, 180, 41, 0.14);
-    --color-focus: #c9920a;
+    --color-paper: oklch(94% 0.012 85);
+    --color-paper-raised: oklch(90% 0.016 80);
+    --color-ink: oklch(24% 0.018 65);
+    --color-ink-muted: oklch(48% 0.02 60);
+    --color-rule: oklch(40% 0.02 62);
+    --color-rule-strong: oklch(24% 0.018 65);
+    --color-accent: oklch(58% 0.205 32);
+    --color-accent-deep: oklch(52% 0.2 32);
+    --color-accent-ink: oklch(96% 0.012 85);
+    --color-focus: oklch(52% 0.2 32);
+    --color-teal: oklch(56% 0.095 205);
+    --color-hairline: oklch(72% 0.02 78);
 
-    --font-display: var(--font-display-face), "Iowan Old Style", "Palatino Linotype", Palatino, serif;
-    --font-body: var(--font-sans-ui);
-    --font-mono: var(--font-mono-ui);
+    --dot-ink: oklch(24% 0.018 65 / 0.06);
+    --grain-ink: oklch(24% 0.018 65 / 0.045);
 
+    --font-display: var(--font-display-face), "Arial Narrow", system-ui, sans-serif;
+    --font-editorial: var(--font-editorial-face), "Songti SC", "Noto Serif SC", "Source Han Serif SC", Georgia, serif;
+    --font-body: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+    --font-mono: var(--font-mono-face), ui-monospace, "Cascadia Mono", "Courier New", monospace;
+
+    --text-label: 0.75rem;
+    --text-body: 1.0625rem;
+    --text-heading: clamp(1.75rem, 3.5vw, 2.75rem);
+    --text-display: clamp(3rem, 11vw, 8.5rem);
+    --text-slab: clamp(2.4rem, 7vw, 5.5rem);
+
+    --lh-tight: 1.02;
+    --lh-slab: 1.05;
+    --lh-body: 1.65;
+
+    --space-3xs: 0.125rem;
     --space-2xs: 0.25rem;
     --space-xs: 0.5rem;
     --space-sm: 0.75rem;
     --space-md: 1rem;
     --space-lg: 1.5rem;
-    --space-xl: 2rem;
-    --space-2xl: 3rem;
-    --space-3xl: 4.5rem;
+    --space-xl: 2.5rem;
+    --space-2xl: 4rem;
+    --space-3xl: 6.5rem;
 
-    --radius-sm: 0.25rem;
-    --radius-md: 0.375rem;
-    --radius-lg: 0.5rem;
+    --rule-thin: 1px solid var(--color-hairline);
+    --rule-medium: 2px solid var(--color-rule);
+    --rule-heavy: 3px solid var(--color-rule-strong);
 
-    --dur-fast: 120ms;
-    --dur-med: 200ms;
-    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-    --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+    --radius-xs: 1px;
+    --radius-sm: 2px;
+
+    --sheet-max: 1280px;
+    --sheet-pad: clamp(1.25rem, 5vw, 5rem);
+    --crop: clamp(0.75rem, 2.4vw, 2rem);
+
+    --reg-shift: 0.16em;
+    --duration-short: 140ms;
+    --duration-medium: 240ms;
+    --dur-reg: 620ms;
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-snap: cubic-bezier(0.2, 0.9, 0.2, 1);
+
+    /* Legacy bridges used by residual components */
+    --background: var(--color-paper);
+    --foreground: var(--color-ink);
+    --muted: var(--color-ink-muted);
+    --surface: var(--color-paper);
+    --surface-strong: var(--color-paper-raised);
+    --border: var(--color-hairline);
+    --accent: var(--color-ink);
+    --accent-soft: oklch(24% 0.018 65 / 0.06);
+    --accent-secondary: var(--color-accent);
+    --panel-shadow: none;
+    --action-primary-foreground: var(--color-accent-ink);
+    --font-sans-ui: var(--font-body);
+    --font-mono-ui: var(--font-mono);
 }
 
 .dark {
-    --color-paper: #101010;
-    --color-paper-raised: #1c1c1c;
-    --color-ink: #f4f4f2;
-    --color-ink-muted: #aaa79f;
-    --color-rule: rgba(255, 255, 255, 0.12);
-    --color-accent: #e0b13a;
-    --color-accent-soft: rgba(240, 180, 41, 0.16);
-    --color-focus: #e0b13a;
+    --color-paper: oklch(18% 0.012 65);
+    --color-paper-raised: oklch(22% 0.014 65);
+    --color-ink: oklch(93% 0.012 85);
+    --color-ink-muted: oklch(72% 0.02 80);
+    --color-rule: oklch(58% 0.02 70);
+    --color-rule-strong: oklch(90% 0.012 85);
+    --color-accent: oklch(68% 0.19 32);
+    --color-accent-deep: oklch(74% 0.17 32);
+    --color-accent-ink: oklch(18% 0.012 65);
+    --color-focus: oklch(74% 0.17 32);
+    --color-teal: oklch(72% 0.08 205);
+    --color-hairline: oklch(38% 0.016 70);
+    --dot-ink: oklch(93% 0.012 85 / 0.05);
+    --grain-ink: oklch(93% 0.012 85 / 0.035);
+
+    --background: var(--color-paper);
+    --foreground: var(--color-ink);
+    --muted: var(--color-ink-muted);
+    --surface: var(--color-paper);
+    --surface-strong: var(--color-paper-raised);
+    --border: var(--color-hairline);
+    --accent: var(--color-ink);
+    --accent-soft: oklch(93% 0.012 85 / 0.08);
+    --accent-secondary: var(--color-accent);
+    --action-primary-foreground: var(--color-accent-ink);
 }

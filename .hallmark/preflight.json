@@ -1,9 +1,10 @@
 {
   "scannedAt": "2026-07-19",
   "framework": "Next.js 16 (app router)",
-  "styling": "Tailwind v4 + globals.css custom properties",
-  "fonts": "Aptos/Segoe body + Instrument Serif display (next/font) + Cascadia Mono",
-  "palette": "warm paper / charcoal / amber accent",
-  "motion": "motion-cut (no framer-motion); ScrollReveal retained for subpages only",
-  "preserved": ["routes", "ResumeSwitcher data/logic", "blog loading", "dark mode"]
+  "styling": "Tailwind v4 + tokens.css + broadsheet globals",
+  "fonts": "Big Shoulders + Fraunces + Spline Sans Mono + CJK system fallbacks",
+  "palette": "bone newsprint / oxidised ink / vermilion accent",
+  "designSystem": "design.md — Caius Engineering Broadsheet",
+  "motion": "motion-cut; ScrollReveal removed from main layout",
+  "preserved": ["routes", "ResumeSwitcher data/logic", "blog loading", "Explore APIs", "dark mode"]
 }

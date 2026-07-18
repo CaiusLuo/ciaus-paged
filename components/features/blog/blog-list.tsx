@@ -1,10 +1,10 @@
 ﻿/**
  * Blog List Component
- * Display a list of blog posts
+ * Editorial dispatch list
  */
 
-import { BlogCard } from './blog-card';
-import { SkeletonCard } from '@/components/ui';
+import Link from 'next/link';
+import { formatDate } from '@/lib/utils';
 import type { BlogPostSummary } from '@/types';
 
 export interface BlogListProps {
@@ -13,37 +13,45 @@ export interface BlogListProps {
     loadingCount?: number;
 }
 
-export function BlogList({
-    posts,
-    loading = false,
-    loadingCount = 6,
-}: BlogListProps) {
+export function BlogList({ posts, loading = false, loadingCount = 6 }: BlogListProps) {
     if (loading) {
         return (
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <ul className="dispatch-list" aria-busy="true">
                 {Array.from({ length: loadingCount }).map((_, index) => (
-                    <SkeletonCard key={index} />
+                    <li key={index} className="dispatch-row">
+                        <span className="dispatch-meta">Loading</span>
+                        <span className="dispatch-title">…</span>
+                    </li>
                 ))}
-            </div>
+            </ul>
         );
     }
 
     if (posts.length === 0) {
         return (
-            <div className="apple-card border-dashed px-6 py-12 text-center">
-                <p className="text-lg font-medium text-[color:var(--foreground)]">No notes found.</p>
-                <p className="mt-2 text-sm text-[color:var(--muted)]">
-                    Add Markdown files to the content folder and they will appear here automatically.
-                </p>
-            </div>
+            <p className="sheet-lede">
+                No notes found. Add Markdown files to the content folder and they will appear here.
+            </p>
         );
     }
 
     return (
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <ul className="dispatch-list">
             {posts.map((post) => (
-                <BlogCard key={post.slug} post={post} />
+                <li key={post.slug}>
+                    <Link
+                        href={`/blog/${encodeURIComponent(post.slug)}`}
+                        className="dispatch-row"
+                    >
+                        <span className="dispatch-meta">
+                            <span>{post.category}</span>
+                            <time dateTime={post.date}>{formatDate(post.date)}</time>
+                        </span>
+                        <span className="dispatch-title">{post.title}</span>
+                        <span className="dispatch-desc">{post.description}</span>
+                    </Link>
+                </li>
             ))}
-        </div>
+        </ul>
     );
 }

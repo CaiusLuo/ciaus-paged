@@ -1,10 +1,9 @@
 ﻿/**
  * Explore Page
- * Search and filter attractions
+ * Photographic field notes / contact sheet
  */
 
 import type { Metadata } from 'next';
-import { LocateFixed, MapPinned, Search } from 'lucide-react';
 import { ExploreAttractions } from '@/components/features/attractions';
 import { siteMetadata } from '@/app/config';
 
@@ -23,40 +22,23 @@ export const metadata: Metadata = {
 
 export default function ExplorePage() {
     return (
-        <div className="page-shell">
-            <section className="subpage-hero">
-                <div className="subpage-hero-copy">
-                    <p className="section-kicker">Explore</p>
-                    <h1>周边探索</h1>
-                    <p>基于地理位置和关键词的地点检索界面。</p>
+        <div className="page-shell field-sheet">
+            <header>
+                <p className="eyebrow">Field notes · Supplement</p>
+                <h1 className="sheet-title">周边探索</h1>
+                <p className="sheet-lede">
+                    基于地理位置与关键词的地点检索，排成接触印样（contact sheet）式的影像笔记，而不是旅行 App 仪表盘。
+                </p>
+                <div className="dispatch-meta" style={{ marginTop: '1rem' }}>
+                    <span>Live location</span>
+                    <span>Keyword search</span>
+                    <span>Captioned plates</span>
                 </div>
+            </header>
 
-                <div className="subpage-hero-card">
-                    <div className="subpage-card-topline">
-                        <MapPinned className="h-4 w-4" />
-                        <span>Search Modes</span>
-                    </div>
-                    <div className="subpage-feature-list">
-                        <div>
-                            <LocateFixed className="h-4 w-4" />
-                            <span>实时定位</span>
-                        </div>
-                        <div>
-                            <Search className="h-4 w-4" />
-                            <span>关键词检索</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="section-panel apple-panel location-panel">
-                <div className="mb-6 flex items-center gap-2 text-sm font-medium uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                    <MapPinned className="h-4 w-4" />
-                    地图界面
-                </div>
+            <section className="field-controls" aria-label="Explore interface">
                 <ExploreAttractions />
             </section>
         </div>
     );
 }
-

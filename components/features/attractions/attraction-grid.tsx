@@ -1,10 +1,9 @@
 ﻿/**
  * Attraction Grid Component
- * Display a grid of attraction cards
+ * Contact-sheet layout
  */
 
 import { AttractionCard } from './attraction-card';
-import { SkeletonCard } from '@/components/ui';
 import type { Attraction } from '@/types';
 
 export interface AttractionGridProps {
@@ -20,9 +19,14 @@ export function AttractionGrid({
 }: AttractionGridProps) {
     if (loading) {
         return (
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <div className="contact-sheet" aria-busy="true">
                 {Array.from({ length: loadingCount }).map((_, index) => (
-                    <SkeletonCard key={index} />
+                    <article key={index} className="contact-frame">
+                        <div className="contact-frame__media" />
+                        <div className="contact-frame__body">
+                            <h3>Loading plate…</h3>
+                        </div>
+                    </article>
                 ))}
             </div>
         );
@@ -30,19 +34,20 @@ export function AttractionGrid({
 
     if (attractions.length === 0) {
         return (
-            <div className="apple-card border-dashed px-6 py-12 text-center">
-                <p className="text-lg font-medium text-[color:var(--foreground)]">No attractions found.</p>
-                <p className="mt-2 text-sm text-[color:var(--muted)]">
-                    Try switching between nearby mode and keyword mode, or adjust the current filters.
-                </p>
-            </div>
+            <p className="sheet-lede">
+                No plates in this sheet. Adjust radius or try another keyword.
+            </p>
         );
     }
 
     return (
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {attractions.map((attraction) => (
-                <AttractionCard key={attraction.id} attraction={attraction} />
+        <div className="contact-sheet">
+            {attractions.map((attraction, index) => (
+                <AttractionCard
+                    key={attraction.id || `${attraction.name}-${index}`}
+                    attraction={attraction}
+                    index={index}
+                />
             ))}
         </div>
     );

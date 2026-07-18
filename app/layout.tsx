@@ -1,14 +1,30 @@
 ﻿import type { Metadata } from 'next';
-import { Instrument_Serif } from 'next/font/google';
+import { Big_Shoulders, Fraunces, Spline_Sans_Mono } from 'next/font/google';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { siteMetadata } from '@/app/config';
 import './globals.css';
 
-const displaySerif = Instrument_Serif({
+const display = Big_Shoulders({
     subsets: ['latin'],
-    weight: '400',
+    weight: 'variable',
     style: 'normal',
+    axes: ['opsz'],
     variable: '--font-display-face',
+    display: 'swap',
+});
+
+const editorial = Fraunces({
+    subsets: ['latin'],
+    weight: ['400', '500', '600'],
+    style: 'normal',
+    variable: '--font-editorial-face',
+    display: 'swap',
+});
+
+const mono = Spline_Sans_Mono({
+    subsets: ['latin'],
+    weight: ['400', '500', '600'],
+    variable: '--font-mono-face',
     display: 'swap',
 });
 
@@ -33,15 +49,21 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="zh-CN" className={displaySerif.variable} suppressHydrationWarning>
+        <html
+            lang="zh-CN"
+            className={`${display.variable} ${editorial.variable} ${mono.variable}`}
+            suppressHydrationWarning
+        >
             <head>
                 <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
             </head>
             <body>
+                <a className="skip-link" href="#main-content">
+                    Skip to content
+                </a>
                 {children}
                 <SpeedInsights />
             </body>
         </html>
     );
 }
-

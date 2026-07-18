@@ -1,10 +1,9 @@
 /**
  * Main Layout
- * Shared layout with header and footer
+ * Shared layout with masthead and colophon
  */
 
 import { Header, Footer } from '@/components/layout';
-import { ScrollReveal } from '@/components/layout/scroll-reveal';
 
 export default function MainLayout({
     children,
@@ -14,11 +13,10 @@ export default function MainLayout({
     return (
         <div className="flex min-h-screen flex-col">
             <Header />
-            <main className="flex-1">
+            <main id="main-content" className="site-main">
                 {children}
             </main>
             <Footer />
-            <ScrollReveal />
         </div>
     );
 }

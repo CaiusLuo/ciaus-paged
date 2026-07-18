@@ -1,11 +1,10 @@
 ﻿/**
  * Attraction Card Component
- * Display a single attraction with photo and details
+ * Contact-sheet plate
  */
 
 import Image from 'next/image';
-import { MapPin, Star } from 'lucide-react';
-import { Badge, BadgeGroup, Card } from '@/components/ui';
+import { MapPin } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { formatDistance, formatRating } from '@/lib/utils/format';
 import type { Attraction } from '@/types';
@@ -13,70 +12,46 @@ import type { Attraction } from '@/types';
 export interface AttractionCardProps {
     attraction: Attraction;
     className?: string;
+    index?: number;
 }
 
-export function AttractionCard({ attraction, className }: AttractionCardProps) {
+export function AttractionCard({ attraction, className, index = 0 }: AttractionCardProps) {
     const photo = attraction.photos[0];
 
     return (
-        <Card
-            hoverable
-            className={cn(
-                'apple-card group cursor-pointer',
-                className
-            )}
-        >
-            <div className="relative aspect-video overflow-hidden">
+        <article className={cn('contact-frame', className)}>
+            <div className="contact-frame__media">
+                <span className="contact-frame__num">
+                    Plate {String(index + 1).padStart(2, '0')}
+                </span>
                 {photo ? (
                     <Image
                         src={photo.url}
                         alt={photo.alt || attraction.name}
                         fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="object-cover"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                 ) : (
-                    <div className="flex h-full items-center justify-center bg-zinc-100 dark:bg-zinc-800">
-                        <MapPin className="h-8 w-8 text-zinc-400" />
-                    </div>
-                )}
-
-                {attraction.distance !== undefined && (
-                    <div className="absolute left-3 top-3">
-                        <Badge variant="primary" size="sm">
-                            {formatDistance(attraction.distance)}
-                        </Badge>
+                    <div className="flex h-full items-center justify-center text-[color:var(--color-ink-muted)]">
+                        <MapPin className="h-8 w-8" aria-hidden="true" />
                     </div>
                 )}
             </div>
 
-            <div className="space-y-4 p-5">
-                <div>
-                    <h3 className="line-clamp-1 text-xl font-semibold tracking-tight text-[color:var(--foreground)]">
-                        {attraction.name}
-                    </h3>
-                    <p className="mt-2 line-clamp-2 text-sm leading-6 text-[color:var(--muted)]">
-                        {attraction.location.address || 'No address available'}
-                    </p>
-                </div>
-
-                {attraction.rating !== undefined && (
-                    <div className="inline-flex items-center gap-2 rounded-full bg-amber-50 px-3 py-1 text-sm text-amber-700 dark:bg-amber-500/10 dark:text-amber-200">
-                        <Star className="h-4 w-4 fill-current" />
-                        {formatRating(attraction.rating)}
-                    </div>
-                )}
-
-                {attraction.tags.length > 0 && (
-                    <BadgeGroup className="gap-2">
-                        {attraction.tags.slice(0, 3).map((tag, index) => (
-                            <Badge key={`${tag}-${index}`} variant="outline" size="sm">
-                                {tag}
-                            </Badge>
-                        ))}
-                    </BadgeGroup>
-                )}
+            <div className="contact-frame__body">
+                <h3>{attraction.name}</h3>
+                <p>{attraction.location.address || 'No address available'}</p>
+                <p className="contact-frame__meta">
+                    {attraction.distance !== undefined && (
+                        <span>{formatDistance(attraction.distance)} · </span>
+                    )}
+                    {attraction.rating !== undefined && (
+                        <span>Rating {formatRating(attraction.rating)} · </span>
+                    )}
+                    {attraction.tags.slice(0, 2).join(' · ') || 'Field note'}
+                </p>
             </div>
-        </Card>
+        </article>
     );
 }
