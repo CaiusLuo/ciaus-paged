@@ -1,179 +1,208 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Github, Mail, NotebookPen } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { ResumeSwitcher } from '@/components/features/resume/resume-switcher';
 import { authorInfo } from '@/app/config';
 import { getAllBlogPosts, getFeaturedBlogPosts } from '@/lib/content/blog';
 import { formatDate } from '@/lib/utils';
 
-const skills = [
-    'Java',
-    'Spring Boot',
-    'Spring Cloud Alibaba',
-    'Redis',
-    'RabbitMQ',
-    'RocketMQ',
-    'GraphQL',
-    'LangGraph',
-    'MySQL',
-    'Docker',
-];
+const identityLinks = [
+    { href: '#experience', label: 'Experience', external: false },
+    { href: authorInfo.github, label: 'GitHub', external: true },
+    { href: '/blog', label: 'Notes', external: false },
+    { href: `mailto:${authorInfo.email}`, label: 'Email', external: false },
+] as const;
 
-const profileStats = [
-    { value: 'Agent', label: '后端工程化' },
-    { value: 'Java', label: '微服务与高并发' },
-    { value: 'MQ', label: '异步链路设计' },
-];
-
-const focusAreas = [
+const selectedWork = [
     {
         title: 'Agent Infrastructure',
         description: 'API 调度、GraphQL Resolver 优化、LangGraph 状态流转、LangSmith 链路追踪。',
+        stack: 'GraphQL · LangGraph · Redis · LangSmith',
+        href: '#experience',
     },
     {
         title: 'Backend Systems',
         description: 'Spring Cloud Alibaba、Gateway 鉴权、分布式 ID、多级缓存、异步落库。',
+        stack: 'Spring Cloud · Redis · RocketMQ · Gateway',
+        href: '#experience',
     },
     {
         title: 'Data Automation',
         description: 'XXL-Job 定时调度、RabbitMQ 削峰、Sharding-JDBC 分表、金融资讯 Bot。',
+        stack: 'XXL-Job · RabbitMQ · Sharding-JDBC · Python',
+        href: '#experience',
     },
-];
+    {
+        title: 'IMean.ai Agent Backend',
+        description: '多源 API 稳定性、POI 检索性能、Agent 状态流转与跨服务调用链路。',
+        stack: 'Redis · GraphQL · DataLoader · LangGraph',
+        href: '#experience',
+    },
+    {
+        title: 'RedFolio',
+        description: '高并发内容社区：微服务拆分、多级缓存、点赞异步落库。',
+        stack: 'Spring Cloud Alibaba · Redis · Caffeine · RocketMQ',
+        href: '#experience',
+    },
+    {
+        title: 'TodayStock',
+        description: '股票数据采集、清洗、入库与可视化分析平台。',
+        stack: 'Spring Boot · RabbitMQ · XXL-Job · Sharding-JDBC',
+        href: '#experience',
+    },
+] as const;
+
+const stackGroups = [
+    {
+        label: 'Backend',
+        items: ['Java', 'Spring Boot', 'Spring Cloud Alibaba', 'GraphQL'],
+    },
+    {
+        label: 'Infrastructure',
+        items: ['Redis', 'RabbitMQ', 'RocketMQ', 'Docker', 'MySQL'],
+    },
+    {
+        label: 'Agent',
+        items: ['LangGraph', 'LangSmith', 'CrewAI'],
+    },
+    {
+        label: 'Data',
+        items: ['MySQL', 'PostgreSQL', 'XXL-Job', 'Sharding-JDBC'],
+    },
+] as const;
 
 export default function HomePage() {
     const posts = getAllBlogPosts();
     const featuredPosts = getFeaturedBlogPosts(3);
 
     return (
-        <div className="notion-home">
-            <section className="notion-hero">
-                <div className="hero-copy">
-                    <p className="eyebrow">Caius</p>
-                    <div className="hero-self-image">
-                        <Image
-                            src="/caius-self-png.png"
-                            alt="Caius profile introduction"
-                            width={1055}
-                            height={1491}
-                            priority
-                        />
-                    </div>
+        <div className="archive-home">
+            <section className="archive-intro" aria-labelledby="archive-identity">
+                <div className="archive-intro-copy">
+                    <p className="archive-meta">Portfolio · Engineering index</p>
+                    <h1 id="archive-identity">Caius Luo</h1>
+                    <p className="archive-lede">
+                        Backend engineer building reliable Java systems and AI agent infrastructure.
+                    </p>
+                    <p className="archive-lede-zh">
+                        维护一份工程向的个人索引：后端系统、Agent 基础设施，以及可复查的技术笔记。
+                    </p>
 
-                </div>
-
-                <aside className="hero-resume-card" aria-label="Resume summary">
-                    <div className="resume-paper-header">
-                        <div className="resume-window-controls" aria-hidden="true">
-                            <span />
-                            <span />
-                            <span />
-                        </div>
-                        <div className="resume-paper-tabs" aria-label="Profile tabs">
-                            <span className="is-active">Profile</span>
-                            <span>Stack</span>
-                            <span>Systems</span>
-                        </div>
-                    </div>
-                    <div className="resume-paper-body">
-                        <div className="hero-card-tags" aria-label="Profile highlights">
-                            <span>Agent Backend</span>
-                            <span>Spring Cloud</span>
-                            <span>Redis / MQ</span>
-                            <span>GraphQL</span>
-                        </div>
-
-                        <p className="resume-paper-label">Resume Snapshot</p>
-                        <h2>Backend / Agent</h2>
-                        <p>
-                            IMean.ai Agent 后端实习、IoT 平台后端实习、RedFolio 高并发内容社区、TodayStock 数据分析平台。
-                        </p>
-                        <div className="resume-paper-grid">
-                            {profileStats.map((item) => (
-                                <div key={item.label}>
-                                    <strong>{item.value}</strong>
-                                    <span>{item.label}</span>
-                                </div>
-                            ))}
-                        </div>
-                        <div className="resume-card-actions">
-                            <Link href="#experience" className="notion-button notion-button-primary">
-                                查看经历
-                                <ArrowRight className="h-4 w-4" />
-                            </Link>
-                            <Link href="/blog" className="notion-button notion-button-secondary">
-                                技术笔记
-                                <NotebookPen className="h-4 w-4" />
-                            </Link>
-                            <Link href={authorInfo.github} className="notion-button notion-button-secondary" target="_blank" rel="noreferrer noopener">
-                                GitHub
-                                <Github className="h-4 w-4" />
-                            </Link>
-                            <Link href={`mailto:${authorInfo.email}`} className="notion-button notion-button-secondary">
-                                联系我
-                                <Mail className="h-4 w-4" />
-                            </Link>
-                        </div>
-                    </div>
-                </aside>
-            </section>
-
-            <section className="notion-section skill-section">
-                <div className="section-heading">
-                    <p className="section-kicker">Stack</p>
-                    <div>
-                        <h2>技术关键词</h2>
-                    </div>
-                </div>
-                <div className="tech-orbit-strip" aria-label="Core stack loop">
-                    <div>
-                        {[...skills, ...skills].map((skill, index) => (
-                            <span key={`${skill}-${index}`}>{skill}</span>
+                    <nav className="archive-identity-links" aria-label="Primary links">
+                        {identityLinks.map((link, index) => (
+                            <span key={link.href} className="archive-identity-link-item">
+                                {index > 0 && <span className="archive-identity-sep" aria-hidden="true">/</span>}
+                                <Link
+                                    href={link.href}
+                                    className="archive-text-link"
+                                    {...(link.external
+                                        ? { target: '_blank', rel: 'noreferrer noopener' }
+                                        : {})}
+                                >
+                                    {link.label}
+                                </Link>
+                            </span>
                         ))}
-                    </div>
+                    </nav>
                 </div>
-                <div className="sr-only">
-                    {skills.map((skill) => (
-                        <span key={skill}>{skill}</span>
-                    ))}
-                </div>
+
+                <figure className="archive-portrait">
+                    <Image
+                        src="/caius-self-png.png"
+                        alt="Portrait of Caius Luo"
+                        width={1055}
+                        height={1491}
+                        priority
+                    />
+                </figure>
             </section>
 
-            <section className="focus-grid">
-                {focusAreas.map((area, index) => (
-                    <article key={area.title} className="notion-card apple-card" style={{ animationDelay: `${index * 90}ms` }}>
-                        <span className="card-number">{String(index + 1).padStart(2, '0')}</span>
-                        <h2>{area.title}</h2>
-                        <p>{area.description}</p>
-                    </article>
-                ))}
+            <section className="archive-section" aria-labelledby="selected-work-heading">
+                <header className="archive-section-head">
+                    <div>
+                        <h2 id="selected-work-heading">Selected work</h2>
+                        <p>能力方向与代表性工程，索引式排列。</p>
+                    </div>
+                    <p className="archive-section-count">{String(selectedWork.length).padStart(2, '0')} entries</p>
+                </header>
+
+                <ol className="archive-index">
+                    {selectedWork.map((item, index) => (
+                        <li key={item.title}>
+                            <Link href={item.href} className="archive-index-row">
+                                <span className="archive-index-num">
+                                    {String(index + 1).padStart(2, '0')}
+                                </span>
+                                <span className="archive-index-main">
+                                    <span className="archive-index-title">{item.title}</span>
+                                    <span className="archive-index-desc">{item.description}</span>
+                                </span>
+                                <span className="archive-index-meta">{item.stack}</span>
+                                <span className="archive-index-arrow" aria-hidden="true">
+                                    <ArrowUpRight className="h-4 w-4" />
+                                </span>
+                            </Link>
+                        </li>
+                    ))}
+                </ol>
             </section>
 
             <ResumeSwitcher />
 
-            <section className="notion-section writing-section">
-                <div className="section-heading">
-                    <p className="section-kicker">Writing</p>
+            <section className="archive-section" aria-labelledby="stack-heading">
+                <header className="archive-section-head">
                     <div>
-                        <h2>技术笔记</h2>
-                        <p>{posts.length} 篇工程记录、问题复盘与项目笔记。</p>
+                        <h2 id="stack-heading">Technical stack</h2>
+                        <p>按类别整理的常用技术，静态可读，不做跑马灯。</p>
                     </div>
-                    <Link href="/blog" className="notion-button notion-button-secondary">
-                        全部笔记
-                        <ArrowRight className="h-4 w-4" />
-                    </Link>
-                </div>
+                </header>
 
-                <div className="writing-grid">
-                    {featuredPosts.map((post) => (
-                        <Link key={post.slug} href={`/blog/${encodeURIComponent(post.slug)}`} className="writing-card apple-card">
-                            <span>{post.category} · {formatDate(post.date)}</span>
-                            <h3>{post.title}</h3>
-                            <p>{post.description}</p>
-                        </Link>
+                <div className="archive-stack-grid">
+                    {stackGroups.map((group) => (
+                        <div key={group.label} className="archive-stack-group">
+                            <h3>{group.label}</h3>
+                            <ul>
+                                {group.items.map((item) => (
+                                    <li key={item}>{item}</li>
+                                ))}
+                            </ul>
+                        </div>
                     ))}
                 </div>
             </section>
 
+            <section className="archive-section archive-section-last" aria-labelledby="writing-heading">
+                <header className="archive-section-head">
+                    <div>
+                        <h2 id="writing-heading">Latest writing</h2>
+                        <p>
+                            {posts.length} 篇工程记录、问题复盘与项目笔记。
+                        </p>
+                    </div>
+                    <Link href="/blog" className="archive-text-link archive-text-link-quiet">
+                        All notes
+                        <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                    </Link>
+                </header>
+
+                <ul className="archive-writing-list">
+                    {featuredPosts.map((post) => (
+                        <li key={post.slug}>
+                            <Link
+                                href={`/blog/${encodeURIComponent(post.slug)}`}
+                                className="archive-writing-row"
+                            >
+                                <span className="archive-writing-meta">
+                                    <span>{post.category}</span>
+                                    <time dateTime={post.date}>{formatDate(post.date)}</time>
+                                </span>
+                                <span className="archive-writing-title">{post.title}</span>
+                                <span className="archive-writing-desc">{post.description}</span>
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </section>
         </div>
     );
 }

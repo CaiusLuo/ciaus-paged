@@ -3,12 +3,8 @@
 import { useEffect } from 'react';
 
 const revealSelector = [
-    '.notion-home > section',
     '.page-shell > section',
     '.subpage-hero-card',
-    '.apple-card',
-    '.resume-list',
-    '.resume-detail-card',
 ].join(', ');
 
 export function ScrollReveal() {
