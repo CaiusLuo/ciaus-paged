@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { BriefcaseBusiness, ChevronRight, Code2, Layers3 } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 type ResumeItem = {
@@ -112,12 +112,10 @@ const projects: ResumeItem[] = [
 const groups = {
     internship: {
         label: '实习经历',
-        icon: BriefcaseBusiness,
         items: internships,
     },
     project: {
         label: '项目经历',
-        icon: Layers3,
         items: projects,
     },
 };
@@ -130,7 +128,6 @@ export function ResumeSwitcher() {
 
     const currentGroup = groups[activeGroup];
     const activeItem = currentGroup.items[activeIndex] ?? currentGroup.items[0];
-    const ActiveIcon = currentGroup.icon;
 
     const totalHighlights = useMemo(
         () => currentGroup.items.reduce((count, item) => count + item.highlights.length, 0),
@@ -143,86 +140,73 @@ export function ResumeSwitcher() {
     }
 
     return (
-        <section className="archive-section resume-switcher" id="experience">
-            <header className="archive-section-head">
+        <section className="dossier" id="experience">
+            <header className="ledger__head">
                 <div>
-                    <h2>Experience</h2>
-                    <p>实习与项目经历，可切换索引查看细节。</p>
+                    <p className="eyebrow">Archive dossier</p>
+                    <h2 className="sheet-title">Experience</h2>
+                    <p className="sheet-lede">实习与项目经历，按索引切换查阅。</p>
                 </div>
-                <p className="archive-section-count">
-                    {currentGroup.items.length} · {totalHighlights} notes
+                <p className="ledger__count">
+                    {currentGroup.items.length} files · {totalHighlights} notes
                 </p>
             </header>
 
-            <div className="resume-tabs" role="tablist" aria-label="Resume sections">
+            <div className="dossier-tabs" role="tablist" aria-label="Resume sections">
                 {(Object.keys(groups) as GroupKey[]).map((key) => {
                     const group = groups[key];
-                    const Icon = group.icon;
-
                     return (
                         <button
                             key={key}
                             type="button"
                             role="tab"
                             aria-selected={activeGroup === key}
-                            className={cn('resume-tab', activeGroup === key && 'is-active')}
+                            className={cn('dossier-tab', activeGroup === key && 'is-active')}
                             onClick={() => selectGroup(key)}
                         >
-                            <Icon className="h-4 w-4" />
-                            <span>{group.label}</span>
+                            {group.label}
                         </button>
                     );
                 })}
             </div>
 
-            <div className="resume-layout">
-                <div className="resume-list" aria-label={`${currentGroup.label}列表`}>
-                    <div className="resume-list-summary">
-                        <ActiveIcon className="h-4 w-4" />
-                        <span>{currentGroup.label}</span>
-                    </div>
-
+            <div className="dossier-layout">
+                <div className="dossier-index" aria-label={`${currentGroup.label}列表`}>
+                    <p className="dossier-index-label">{currentGroup.label}</p>
                     {currentGroup.items.map((item, index) => (
                         <button
                             key={item.title}
                             type="button"
-                            className={cn('resume-list-card', activeIndex === index && 'is-active')}
+                            className={cn('dossier-item', activeIndex === index && 'is-active')}
                             onClick={() => setActiveIndex(index)}
                         >
-                            <span className="resume-card-index">{String(index + 1).padStart(2, '0')}</span>
+                            <span className="dossier-item-num">
+                                {String(index + 1).padStart(2, '0')}
+                            </span>
                             <span>
                                 <strong>{item.title}</strong>
                                 <small>{item.role}</small>
                             </span>
-                            <ChevronRight className="h-4 w-4" />
+                            <ChevronRight className="h-4 w-4" aria-hidden="true" />
                         </button>
                     ))}
                 </div>
 
-                <article key={`${activeGroup}-${activeItem.title}`} className="resume-detail-card">
-                    <div className="resume-detail-topline">
+                <article key={`${activeGroup}-${activeItem.title}`} className="dossier-detail">
+                    <div className="dossier-topline">
                         <span>{currentGroup.label}</span>
                         {activeItem.period && <time>{activeItem.period}</time>}
                     </div>
-
-                    <div className="resume-detail-title">
-                        <Code2 className="h-5 w-5" />
-                        <div>
-                            <h3>{activeItem.title}</h3>
-                            <p>{activeItem.role}</p>
-                        </div>
-                    </div>
-
-                    <p className="resume-meta">{activeItem.meta}</p>
-                    <p className="resume-summary">{activeItem.summary}</p>
-
-                    <div className="resume-tags" aria-label="技术关键词">
+                    <h3>{activeItem.title}</h3>
+                    <p className="dossier-role">{activeItem.role}</p>
+                    <p className="dossier-meta">{activeItem.meta}</p>
+                    <p className="dossier-summary">{activeItem.summary}</p>
+                    <div className="dossier-tags" aria-label="技术关键词">
                         {activeItem.tags.map((tag) => (
                             <span key={tag}>{tag}</span>
                         ))}
                     </div>
-
-                    <ul className="resume-highlights">
+                    <ul className="dossier-highlights">
                         {activeItem.highlights.map((highlight) => (
                             <li key={highlight}>{highlight}</li>
                         ))}

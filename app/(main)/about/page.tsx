@@ -1,12 +1,10 @@
 ﻿/**
  * About Page
- * Personal profile and contact information
+ * Editor's letter
  */
 
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Badge } from '@/components/ui';
-import { BriefcaseBusiness, Github, Layers3, Mail, NotebookTabs, Radar } from 'lucide-react';
 import { authorInfo, siteMetadata } from '@/app/config';
 
 export const metadata: Metadata = {
@@ -22,93 +20,114 @@ export const metadata: Metadata = {
     },
 };
 
-const stack = ['Next.js', 'React', 'TypeScript', 'Node.js', 'Tailwind CSS', 'Geo APIs'];
-
-const experienceSummary = [
+const timeline = [
     {
-        icon: BriefcaseBusiness,
-        label: '实习经历',
-        title: 'IMean.ai / 智测云联',
-        description: 'Agent 后端、GraphQL 优化、IoT 消息处理、多租户与异步入库链路。',
+        period: '2025.11 – 2026.02',
+        title: 'IMean.ai / 跨越星空',
+        detail: 'Agent 后端开发实习：API 调度、GraphQL 优化、LangGraph 工程化。',
     },
     {
-        icon: Layers3,
-        label: '项目经历',
+        period: '2025.07 – 2025.10',
+        title: '智测云联',
+        detail: 'Java 后端开发实习：IoT 消息接入、多租户与异步入库。',
+    },
+    {
+        period: '2024 – 2025',
         title: 'RedFolio / TodayStock / Bot',
-        description: '高并发内容社区、股票数据分析平台、金融资讯订阅与自动化推送工具。',
+        detail: '高并发内容社区、股票数据分析平台、金融资讯自动化推送。',
     },
-];
+] as const;
+
+const principles = [
+    {
+        title: 'Build with intent',
+        detail: '有意识的构建：接口、缓存与消息链路都应说得出为什么。',
+    },
+    {
+        title: 'Trace the thought',
+        detail: '可追溯的思考：在经验尚未冷却时写成笔记，方便复盘。',
+    },
+    {
+        title: 'Keep warmth',
+        detail: '留有温度的表达：工程之外保持好奇，不把页面做成仪表盘。',
+    },
+] as const;
 
 export default function AboutPage() {
     return (
-        <div className="page-shell">
-            <section className="subpage-hero">
-                <div className="subpage-hero-copy">
-                    <p className="section-kicker">About</p>
-                    <h1>Caius</h1>
-                    <p>后端开发，关注 Agent 工程化、微服务架构、缓存与消息链路。</p>
-                </div>
+        <div className="page-shell letter-sheet">
+            <header>
+                <p className="eyebrow">Editor&apos;s letter</p>
+                <h1 className="sheet-title">关于 Caius</h1>
+                <p className="sheet-lede">
+                    后端开发，关注 Agent 工程化、微服务架构、缓存与消息链路。这份站点是个人工程档案，不是产品营销页。
+                </p>
+            </header>
 
-                <div className="subpage-hero-card">
-                    <div className="subpage-card-topline">
-                        <Radar className="h-4 w-4" />
-                        <span>Contact</span>
-                    </div>
-                    <div className="subpage-action-grid">
-                        <Link href={authorInfo.github} target="_blank" rel="noreferrer noopener" className="notion-button notion-button-primary">
-                            GitHub
-                            <Github className="h-4 w-4" />
-                        </Link>
-                        <Link href={`mailto:${authorInfo.email}`} className="notion-button notion-button-secondary">
-                            Email
-                            <Mail className="h-4 w-4" />
-                        </Link>
-                    </div>
-                </div>
-            </section>
-
-            <section className="about-summary-grid">
-                {experienceSummary.map((item) => {
-                    const Icon = item.icon;
-
-                    return (
-                        <article key={item.label} className="apple-card about-summary-card">
-                            <div className="subpage-card-topline">
-                                <Icon className="h-4 w-4" />
-                                <span>{item.label}</span>
-                            </div>
-                            <h2>{item.title}</h2>
-                            <p>{item.description}</p>
-                        </article>
-                    );
-                })}
-            </section>
-
-            <section className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-                <div className="section-panel apple-panel">
-                    <div className="flex items-center gap-2 text-sm font-medium text-[color:var(--muted)]">
-                        <NotebookTabs className="h-4 w-4" />
-                        工作理念
-                    </div>
-                    <p className="mt-4 text-sm leading-8 text-[color:var(--muted)]">
-                        有意识的构建、可追溯的思考、留有温度的表达。审慎写代码，在经验尚未冷却时记录，在屏幕之外保持好奇
+            <div className="letter-grid">
+                <section>
+                    <p className="fold__lede" style={{ maxWidth: '48ch' }}>
+                        我是罗雄才（Caius Luo）。日常工作集中在可靠的 Java 后端系统，以及可观测的 AI Agent
+                        基础设施。首页是合订本的封面；笔记、探索与关于页共用同一套印刷语言。
                     </p>
-                </div>
 
-                <div className="section-panel apple-panel">
-                    <div className="flex items-center gap-2 text-sm font-medium text-[color:var(--muted)]">
-                        <Radar className="h-4 w-4" />
-                        技术栈
-                    </div>
-                    <div className="mt-4 flex flex-wrap gap-2">
-                        {stack.map((item) => (
-                            <Badge key={item} variant="outline" size="md">
-                                {item}
-                            </Badge>
+                    <ul className="letter-principles" aria-label="Engineering principles">
+                        {principles.map((item) => (
+                            <li key={item.title}>
+                                <strong>{item.title}</strong>
+                                <span>{item.detail}</span>
+                            </li>
                         ))}
+                    </ul>
+
+                    <div style={{ marginTop: '2rem', display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+                        <Link
+                            href={authorInfo.github}
+                            className="btn-print"
+                            target="_blank"
+                            rel="noreferrer noopener"
+                        >
+                            GitHub →
+                        </Link>
+                        <Link href={`mailto:${authorInfo.email}`} className="text-link">
+                            {authorInfo.email}
+                        </Link>
                     </div>
-                </div>
-            </section>
+                </section>
+
+                <aside className="letter-aside">
+                    <h2>Timeline</h2>
+                    <ul className="letter-timeline">
+                        {timeline.map((item) => (
+                            <li key={item.title}>
+                                <time>{item.period}</time>
+                                <strong
+                                    style={{
+                                        display: 'block',
+                                        marginTop: '0.35rem',
+                                        fontFamily: 'var(--font-editorial)',
+                                        fontWeight: 550,
+                                    }}
+                                >
+                                    {item.title}
+                                </strong>
+                                <p style={{ margin: '0.35rem 0 0', color: 'var(--color-ink-muted)' }}>
+                                    {item.detail}
+                                </p>
+                            </li>
+                        ))}
+                    </ul>
+
+                    <h2 style={{ marginTop: '2rem' }}>Contact</h2>
+                    <p className="colophon__meta">
+                        <Link href={authorInfo.github} target="_blank" rel="noreferrer noopener">
+                            github.com/CaiusLuo
+                        </Link>
+                        <br />
+                        <Link href={`mailto:${authorInfo.email}`}>{authorInfo.email}</Link>
+                    </p>
+                </aside>
+            </div>
         </div>
     );
 }

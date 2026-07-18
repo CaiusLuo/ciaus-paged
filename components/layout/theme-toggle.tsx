@@ -1,19 +1,12 @@
-﻿/**
- * Theme Toggle Component
- * Dark/light mode switcher
- */
-
-'use client';
+﻿'use client';
 
 import { useCallback, useEffect, useSyncExternalStore } from 'react';
-import { Moon, Sun } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 type Theme = 'light' | 'dark';
 
 function applyThemeToDocument(theme: Theme) {
-    const root = document.documentElement;
-    root.classList.toggle('dark', theme === 'dark');
+    document.documentElement.classList.toggle('dark', theme === 'dark');
 }
 
 let currentTheme: Theme = 'light';
@@ -42,17 +35,9 @@ function getServerSnapshot() {
 }
 
 export function ThemeToggle() {
-    const isClient = useSyncExternalStore(
-        () => () => {},
-        getClientSnapshot,
-        getServerSnapshot
-    );
+    const isClient = useSyncExternalStore(() => () => {}, getClientSnapshot, getServerSnapshot);
 
-    const theme = useSyncExternalStore(
-        subscribeToTheme,
-        getTheme,
-        () => 'light' as Theme
-    );
+    const theme = useSyncExternalStore(subscribeToTheme, getTheme, () => 'light' as Theme);
 
     useEffect(() => {
         const savedTheme = (localStorage.getItem('theme') as Theme | null) || 'light';
@@ -68,40 +53,35 @@ export function ThemeToggle() {
 
     if (!isClient) {
         return (
-            <div className="flex items-center gap-1 rounded-md bg-zinc-100 p-1 dark:bg-zinc-800">
-                <div className="h-7 w-7" />
-                <div className="h-7 w-7" />
+            <div className="theme-switch" aria-hidden="true">
+                <button type="button" tabIndex={-1}>
+                    Paper
+                </button>
+                <button type="button" tabIndex={-1}>
+                    Ink
+                </button>
             </div>
         );
     }
 
     return (
-        <div className="flex items-center gap-1 rounded-md bg-zinc-100 p-1 dark:bg-zinc-800">
+        <div className="theme-switch" role="group" aria-label="Theme">
             <button
+                type="button"
                 onClick={() => handleThemeChange('light')}
-                className={cn(
-                    'rounded-md p-1.5 transition-colors',
-                    theme === 'light'
-                        ? 'bg-white text-zinc-900 shadow-sm dark:bg-zinc-700 dark:text-zinc-50'
-                        : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50'
-                )}
-                aria-label="Light theme"
+                className={cn(theme === 'light' && 'is-active')}
+                aria-pressed={theme === 'light'}
             >
-                <Sun className="h-4 w-4" />
+                Paper
             </button>
             <button
+                type="button"
                 onClick={() => handleThemeChange('dark')}
-                className={cn(
-                    'rounded-md p-1.5 transition-colors',
-                    theme === 'dark'
-                        ? 'bg-white text-zinc-900 shadow-sm dark:bg-zinc-700 dark:text-zinc-50'
-                        : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50'
-                )}
-                aria-label="Dark theme"
+                className={cn(theme === 'dark' && 'is-active')}
+                aria-pressed={theme === 'dark'}
             >
-                <Moon className="h-4 w-4" />
+                Ink
             </button>
         </div>
     );
 }
-

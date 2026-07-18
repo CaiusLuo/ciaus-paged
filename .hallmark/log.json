@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-07-19",
+    "macrostructure": "Corner-cropped broadsheet",
+    "theme": "studied-DNA",
+    "theme_axes": "light / condensed-poster-grotesque / warm-vermilion",
+    "vibe": "bone newsprint vermilion print",
+    "enrichment": "none",
+    "brief": "Site-wide Caius Engineering Broadsheet from custom-04 DNA",
+    "source": "https://www.usehallmark.com/examples/custom-04/"
+  },
+  {
+    "date": "2026-07-19",
     "macrostructure": "Index-First",
     "theme": "custom",
     "theme_axes": "light / classical-serif / warm",

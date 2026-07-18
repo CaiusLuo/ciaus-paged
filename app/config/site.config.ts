@@ -43,14 +43,18 @@ export interface NavItem {
 }
 
 export const mainNav: NavItem[] = [
-    { title: 'Home', href: '/' },
+    { title: 'Front Page', href: '/' },
+    { title: 'Work', href: '/#experience' },
     { title: 'Notes', href: '/blog' },
     { title: 'Explore', href: '/explore' },
     { title: 'About', href: '/about' },
 ];
 
 export const footerNav: NavItem[] = [
+    { title: 'Front Page', href: '/' },
     { title: 'Notes', href: '/blog' },
+    { title: 'Explore', href: '/explore' },
+    { title: 'About', href: '/about' },
     { title: 'GitHub', href: authorInfo.github, external: true },
 ];
 
